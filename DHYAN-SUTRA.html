@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>DHYAN SUTRA — Premium Osho Archive</title>
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #e5c07b;
+      --accent-glow: rgba(229, 192, 123, 0.4);
+      --glass-bg: rgba(16, 18, 27, 0.55);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-highlight: rgba(255, 255, 255, 0.15);
+      --text-main: #f0f6fc;
+      --text-muted: #9ca3af;
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2.5rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Cinematic Blurred Background Overlay */
+    .ambient-background {
+      position: fixed;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      background: url('https://ik.imagekit.io/oshowebworldcr/osho.jpg') center/cover no-repeat;
+      filter: blur(35px) brightness(0.25) saturate(120%);
+      z-index: -2;
+    }
+
+    .bg-vignette {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, transparent 0%, #050608 100%);
+      z-index: -1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px; /* Tighter width for extreme premium feel */
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      z-index: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 4px 20px var(--accent-glow);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* Advanced Glass Card */
+    .card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-top: 1px solid var(--glass-highlight);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* Hero Image */
+    .hero-image-container {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: calc(var(--radius) - 6px);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .hero-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      transition: transform 0.5s ease;
+    }
+    
+    .hero-image-container:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Dropdown UI */
+    .select-wrapper {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    select {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--accent);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow), inset 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Custom Audio Player UI */
+    .custom-player {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding: 1.25rem;
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .player-controls-main {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .play-btn-circle {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px var(--accent-glow);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .play-btn-circle:hover {
+      transform: scale(1.05);
+    }
+
+    .play-btn-circle:active {
+      transform: scale(0.95);
+    }
+
+    .play-icon {
+      width: 20px;
+      height: 20px;
+      fill: #0a0c10;
+      margin-left: 3px; /* visual center for play icon */
+    }
+
+    .pause-icon {
+      width: 20px;
+      height: 20px;
+      fill: #0a0c10;
+      display: none;
+    }
+
+    .playing .play-icon { display: none; }
+    .playing .pause-icon { display: block; margin-left: 0; }
+
+    .track-info-display {
+      flex-grow: 1;
+      overflow: hidden;
+    }
+
+    .track-name-display {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .time-display {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Custom Range Slider */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+      height: 6px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      -webkit-appearance: none;
+      margin-top: -4px;
+      box-shadow: 0 0 10px var(--accent-glow);
+      transition: transform 0.1s;
+    }
+
+    input[type=range]:active::-webkit-slider-thumb {
+      transform: scale(1.3);
+    }
+
+    /* Navigation Buttons */
+    .track-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-btn {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--glass-border);
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+      text-align: center;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(229, 192, 123, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+
+    /* Notes Section */
+    .reader-header {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .reader-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      letter-spacing: 1px;
+    }
+
+    .reader-content {
+      font-size: 1rem;
+      color: #cbd5e1;
+      min-height: 80px;
+      white-space: pre-line;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    /* Instagram Footer */
+    footer {
+      text-align: center;
+      margin-top: 1rem;
+      padding-bottom: 2rem;
+    }
+
+    .insta-credit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+
+    .insta-credit:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 10px 25px var(--accent-glow);
+    }
+
+    .insta-icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 1.25rem; }
+      header h1 { font-size: 2rem; }
+      .play-btn-circle { width: 48px; height: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cinematic Backgrounds -->
+  <div class="ambient-background"></div>
+  <div class="bg-vignette"></div>
+
+  <div class="container">
+    <header>
+      <h1>DHYAN SUTRA</h1>
+      <p>Osho Discourse Archive</p>
+    </header>
+
+    <!-- Main Player Section -->
+    <section class="card">
+      <div class="hero-image-container">
+        <img src="https://ik.imagekit.io/oshowebworldcr/osho.jpg" alt="Osho" />
+      </div>
+
+      <div class="select-wrapper">
+        <select id="trackSelect"></select>
+      </div>
+
+      <!-- Hidden Native Audio -->
+      <audio id="audioPlayer" preload="metadata"></audio>
+
+      <!-- Custom Premium Audio UI -->
+      <div class="custom-player">
+        <div class="player-controls-main">
+          <button id="playPauseBtn" class="play-btn-circle">
+            <!-- Play Icon -->
+            <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <!-- Pause Icon -->
+            <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          
+          <div class="track-info-display">
+            <div class="track-name-display" id="activeTrackName">Loading...</div>
+            <div class="time-display">
+              <span id="currentTime">0:00</span>
+              <span id="durationTime">0:00</span>
+            </div>
+          </div>
+        </div>
+        
+        <input type="range" id="progressBar" value="0" step="1" min="0" max="100">
+      </div>
+
+      <!-- Navigation -->
+      <div class="track-nav">
+        <button class="nav-btn" id="prevTrackBtn">&larr; Previous</button>
+        <button class="nav-btn" id="nextTrackBtn">Next &rarr;</button>
+      </div>
+    </section>
+
+    <!-- Discourse Notes -->
+    <section class="card">
+      <div class="reader-header">
+        <h2>Discourse Notes</h2>
+      </div>
+      <div class="reader-content" id="readerContent">
+        Sit silently, close your eyes, and listen with total awareness. 
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <a href="https://instagram.com/garry.sfe" target="_blank" class="insta-credit">
+        <svg class="insta-icon" viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+        Curated by @garry.sfe
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    // Dhyan Sutra Audio Tracks
+    const TRACKS = [
+      { name: "Dhyan Sutra — Part 01", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_01.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 02", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_02.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 03", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_03.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 04", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_04.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 05", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_05.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 06", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_06.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 07", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_07.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 08", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_08.mp3", notes: "" },
+      { name: "Dhyan Sutra — Part 09", audioUrl: "https://dn710101.ca.archive.org/0/items/osho-audio-discourses-collection/OSHO_WORLD/Hindi/032-Dhyan-Sutra%20%28%E0%A4%A7%E0%A5%8D%E0%A4%AF%E0%A4%BE%E0%A4%A8-%E0%A4%B8%E0%A5%82%E0%A4%A4%E0%A5%8D%E0%A4%B0%29/OSHO-Dhyan_Sutra_09.mp3", notes: "" }
+    ];
+
+    // Elements
+    const audioPlayer = document.getElementById("audioPlayer");
+    const trackSelect = document.getElementById("trackSelect");
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const progressBar = document.getElementById("progressBar");
+    const currentTimeEl = document.getElementById("currentTime");
+    const durationTimeEl = document.getElementById("durationTime");
+    const activeTrackName = document.getElementById("activeTrackName");
+    const prevTrackBtn = document.getElementById("prevTrackBtn");
+    const nextTrackBtn = document.getElementById("nextTrackBtn");
+    const readerContent = document.getElementById("readerContent");
+
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+
+    // Formatting Time
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Initialization
+    function initPlayer() {
+      trackSelect.innerHTML = "";
+      TRACKS.forEach((track, idx) => {
+        const opt = document.createElement("option");
+        opt.value = idx;
+        opt.textContent = `${idx + 1}. ${track.name}`;
+        trackSelect.appendChild(opt);
+      });
+      loadTrack(0, false);
+    }
+
+    // Load Track
+    function loadTrack(index, autoPlay = true) {
+      const track = TRACKS[index];
+      currentTrackIndex = index;
+      trackSelect.value = index;
+      
+      audioPlayer.src = track.audioUrl;
+      activeTrackName.textContent = track.name;
+      
+      let displayText = "Sit silently, close your eyes, and listen with total awareness.";
+      if(track.notes) displayText = track.notes + "\n\n" + displayText;
+      readerContent.innerText = displayText;
+
+      prevTrackBtn.disabled = index === 0;
+      nextTrackBtn.disabled = index === TRACKS.length - 1;
+
+      // Reset UI
+      progressBar.value = 0;
+      currentTimeEl.textContent = "0:00";
+      durationTimeEl.textContent = "0:00";
+      
+      if (autoPlay) {
+        togglePlay(true);
+      } else {
+        togglePlay(false);
+      }
+    }
+
+    // Play/Pause Logic
+    function togglePlay(forcePlay) {
+      if (forcePlay === true || (forcePlay !== false && audioPlayer.paused)) {
+        audioPlayer.play().then(() => {
+          playPauseBtn.classList.add("playing");
+          isPlaying = true;
+        }).catch(e => console.log("Autoplay blocked"));
+      } else {
+        audioPlayer.pause();
+        playPauseBtn.classList.remove("playing");
+        isPlaying = false;
+      }
+    }
+
+    // Event Listeners
+    playPauseBtn.addEventListener("click", () => togglePlay());
+
+    trackSelect.addEventListener("change", (e) => loadTrack(Number(e.target.value)));
+
+    prevTrackBtn.addEventListener("click", () => {
+      if (currentTrackIndex > 0) loadTrack(currentTrackIndex - 1);
+    });
+
+    nextTrackBtn.addEventListener("click", () => {
+      if (currentTrackIndex < TRACKS.length - 1) loadTrack(currentTrackIndex + 1);
+    });
+
+    // Audio Event Updates
+    audioPlayer.addEventListener("loadedmetadata", () => {
+      durationTimeEl.textContent = formatTime(audioPlayer.duration);
+      progressBar.max = Math.floor(audioPlayer.duration);
+    });
+
+    audioPlayer.addEventListener("timeupdate", () => {
+      if(!progressBar.matches(':active')) {
+        progressBar.value = Math.floor(audioPlayer.currentTime);
+      }
+      currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+      
+      // Update background progress bar color
+      const progress = (progressBar.value / progressBar.max) * 100;
+      progressBar.style.background = `linear-gradient(to right, var(--accent) ${progress}%, rgba(255,255,255,0.1) ${progress}%)`;
+    });
+
+    audioPlayer.addEventListener("ended", () => {
+      if (currentTrackIndex < TRACKS.length - 1) {
+        loadTrack(currentTrackIndex + 1);
+      } else {
+        togglePlay(false);
+      }
+    });
+
+    // Range Slider scrubbing
+    progressBar.addEventListener("input", () => {
+      currentTimeEl.textContent = formatTime(progressBar.value);
+      const progress = (progressBar.value / progressBar.max) * 100;
+      progressBar.style.background = `linear-gradient(to right, var(--accent) ${progress}%, rgba(255,255,255,0.1) ${progress}%)`;
+    });
+
+    progressBar.addEventListener("change", () => {
+      audioPlayer.currentTime = progressBar.value;
+      if (isPlaying) audioPlayer.play();
+    });
+
+    // Start
+    initPlayer();
+  </script>
+</body>
+</html>
